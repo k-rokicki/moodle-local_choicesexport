@@ -223,11 +223,11 @@ $('.local_choicesexport_check_uncheck_all').click(function() {
     nextstatus = !nextstatus;
 });
 
-var column_separator = $('#column_separator_value').attr('data-value');
-var answer_separator = $('#answer_separator_value').attr('data-value');
+var columnSeparator = $('#column_separator_value').attr('data-value');
+var answerSeparator = $('#answer_separator_value').attr('data-value');
 
-$('input[name="column_separator"][value=' + column_separator + ']').attr('checked', true);
-$('input[name="answer_separator"][value=' + answer_separator + ']').attr('checked', true);
+$('input[name="column_separator"][value=' + columnSeparator + ']').attr('checked', true);
+$('input[name="answer_separator"][value=' + answerSeparator + ']').attr('checked', true);
 
 });
 {{/js}}
