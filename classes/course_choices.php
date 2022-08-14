@@ -127,7 +127,7 @@ class course_choices {
 
         $profilefields = grade_helper::get_user_profile_fields($this->course->id);
 
-        // Print names of all the fields
+        // Print names of all the fields.
         $exporttitle = array();
         foreach ($profilefields as $field) {
             $exporttitle[] = $field->fullname;
@@ -160,7 +160,7 @@ class course_choices {
                     return $answer->optionid;
                 }, $choiceanswers);
                 $choiceoptions = array_filter($choice->options, function ($option) use ($optionids) {
-                   return in_array($option->id, $optionids);
+                    return in_array($option->id, $optionids);
                 });
                 $optiontexts = array_map(function ($option) {
                     return $option->text;
