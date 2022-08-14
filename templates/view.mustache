@@ -1,0 +1,233 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_choicesexport/view
+
+    List course files layout template.
+
+    Context variables required for this template:
+    * url                      - Form post URL
+    * sesskey                  - Sesskey string
+    * choices                  - Array of choices
+    * choices_exist            - Boolean
+    * num_enrolled_users       - Integer
+    * download_allowed         - Boolean, can the user download choice reponses
+    * column_separator         - String
+    * answer_separator         - String
+    * helpicon                 = HTML snippet for "Exclude suspended users" help icon
+
+    Example context (json):
+    {
+        "url"                      : "https://mymoodle.invalid/local/choicesexport/index.php?courseid=34",
+        "sesskey"                  : "lDMLz7xAGt",
+        "choices"                  : [{
+                                        "name"                      : "Choice 1",
+                                        "url"                       : "",
+                                        "editurl"                   : "",
+                                        "responsesurl"              : "",
+                                        "numanswers"                : 20,
+                                        "usersresponded"            : 15,
+                                        "responserate"              : 50,
+                                        "optionslisthtml"           : "<ul><li>Yes</li><li>No</li></ul>",
+                                        "mostfrequentresponseshtml" : "<ul><li>Yes (12)</li></ul>"
+                                     }],
+        "choices_exist"            : true,
+        "num_enrolled_users"       : 30,
+        "download_allowed"         : true,
+        "column_separator"         : "comma",
+        "answer_separator"         : "semicolon",
+        "helpicon"                 : ""
+    }
+
+}}
+
+<h2>
+    {{#str}}pluginname,local_choicesexport{{/str}}
+</h2>
+
+<div id="column_separator_value" style="display: none;" data-value={{column_separator}}></div>
+<div id="answer_separator_value" style="display: none;" data-value={{answer_separator}}></div>
+
+{{#choices_exist}}
+    <form action="{{{url}}}" method="post" id="choicelist">
+    <input name="sesskey" type="hidden" value="{{{sesskey}}}" />
+
+    <table class="local_choicesexport_table generaltable">
+        <thead>
+            <tr>
+                <th class="header c0" scope="col">
+                    <input type="checkbox" class="local_choicesexport_check_uncheck_all" name="check_uncheck_all" />
+                </th>
+                <th class="header c1" scope="col">{{#str}}name,local_choicesexport{{/str}}</th>
+                <th class="header c2" scope="col">{{#str}}total_answers,local_choicesexport{{/str}}</th>
+                <th class="header c3" scope="col">{{#str}}user_response_rate,local_choicesexport{{/str}}</th>
+                <th class="header c4" scope="col">{{#str}}options,local_choicesexport{{/str}}</th>
+                <th class="header c5 lastcol" scope="col">{{#str}}most_frequent_answers,local_choicesexport{{/str}}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#choices}}
+            <tr>
+                <td class="cell c0" style="text-align: left;">
+                    <label>
+                        <input type="checkbox" name="choice[{{id}}]" class="local_choicesexport_file_checkbox">
+                    </label>
+                </td>
+                <td class="cell c1">
+                    {{#url}}
+                        <a href="{{{url}}}">{{name}}</a>
+                    {{/url}}
+                    {{^url}}
+                        {{name}}
+                    {{/url}}
+                    {{#editurl}}
+                        <a href="{{editurl}}">
+                            <i class="icon fa fa-cog fa-fw" aria-hidden="true"></i>
+                        </a>
+                    {{/editurl}}
+                </td>
+                <td class="cell c2">
+                    {{numanswers}}
+                    {{#responsesurl}}
+                        <a href="{{{responsesurl}}}">({{#str}}show_responses,local_choicesexport{{/str}})</a>
+                    {{/responsesurl}}
+                </td>
+                <td class="cell c3">
+                    {{usersresponded}} {{#str}}out_of,local_choicesexport{{/str}} {{num_enrolled_users}} ({{responserate}}%)
+                </td>
+                <td class="cell c4">
+                    <ul>{{{optionslisthtml}}}</ul>
+                </td>
+                <td class="cell c5 lastcol">
+                    <ul>{{{mostfrequentresponseshtml}}}</ul>
+                </td>
+            </tr>
+        {{/choices}}
+    </table>
+    <div class="local_choicesexport_actions">
+        {{#download_allowed}}
+            <div id="fgroup_id_column_separator" class="form-group row fitem" data-groupname="column_separator">
+                <div class="col-md-1 col-form-label">
+                    <p class="mb-0">
+                    </p>
+                </div>
+                <div class="col-md-11 form-inline felement" style="margin-top: 10px; margin-bottom: 10px;">
+                    <label>
+                        <input type="checkbox" name="export_onlyactive" class="form-check-input" value="1"
+                               id="id_export_onlyactive" checked data-initial-value="1">
+                    </label>
+                    <p class="mb-0" style="margin-left: 2px; margin-right: 0.5rem;">
+                        {{#str}}export_only_active,local_choicesexport{{/str}}
+                    </p>
+                    {{#helpicon}}
+                        {{>core/help_icon}}
+                    {{/helpicon}}
+                </div>
+                <div class="col-md-1 col-form-label">
+                    <p class="mb-0">
+                        {{#str}}column_separator,local_choicesexport{{/str}}
+                    </p>
+                </div>
+                <div class="col-md-11 form-inline felement" data-fieldtype="group">
+                    <fieldset>
+                        <legend class="sr-only">
+                            {{#str}}column_separator,local_choicesexport{{/str}}
+                        </legend>
+                        <div class="d-flex flex-wrap align-items-center">
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="column_separator" value="tab">
+                                {{#str}}separator:tab,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="column_separator" value="comma">
+                                {{#str}}separator:comma,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="column_separator" value="colon">
+                                {{#str}}separator:colon,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="column_separator" value="semicolon">
+                                {{#str}}separator:semicolon,local_choicesexport{{/str}}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div id="fgroup_id_answer_separator" class="form-group row fitem" data-groupname="answer_separator">
+                <div class="col-md-1 col-form-label">
+                    <p class="mb-0">
+                        {{#str}}answer_separator,local_choicesexport{{/str}}
+                    </p>
+                </div>
+                <div class="col-md-11 form-inline felement" data-fieldtype="group">
+                    <fieldset>
+                        <legend class="sr-only">
+                            {{#str}}answer_separator,local_choicesexport{{/str}}
+                        </legend>
+                        <div class="d-flex flex-wrap align-items-center">
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="answer_separator" value="tab">
+                                {{#str}}separator:tab,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="answer_separator" value="comma">
+                                {{#str}}separator:comma,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="answer_separator" value="colon">
+                                {{#str}}separator:colon,local_choicesexport{{/str}}
+                            </label>
+                            <label class="form-check-inline form-check-label fitem">
+                                <input type="radio" class="form-check-input" name="answer_separator" value="semicolon">
+                                {{#str}}separator:semicolon,local_choicesexport{{/str}}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="local_choicesexport_action">
+                <button class="btn btn-secondary" type="submit" name="action" value="download">
+                    {{#str}}download,local_choicesexport{{/str}}
+                </button>
+            </div>
+        {{/download_allowed}}
+    </div>
+
+    </form>
+{{/choices_exist}}
+{{^choices_exist}}
+    <b>{{#str}}nothing_found,local_choicesexport{{/str}}</b>
+{{/choices_exist}}
+
+{{#js}}
+require(['jquery'], function($) {
+
+var nextstatus = true;
+$('.local_choicesexport_check_uncheck_all').click(function() {
+    $('.local_choicesexport_file_checkbox').prop('checked', nextstatus);
+    nextstatus = !nextstatus;
+});
+
+var column_separator = $('#column_separator_value').attr('data-value');
+var answer_separator = $('#answer_separator_value').attr('data-value');
+
+$('input[name="column_separator"][value=' + column_separator + ']').attr('checked', true);
+$('input[name="answer_separator"][value=' + answer_separator + ']').attr('checked', true);
+
+});
+{{/js}}

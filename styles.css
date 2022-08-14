@@ -1,0 +1,23 @@
+.local_choicesexport_file_checkbox,
+.local_choicesexport_check_uncheck_all {
+    margin-top: 5px;
+    margin-left: 8px;
+}
+
+.local_choicesexport_actions {
+    margin-top: 25px;
+}
+
+.local_choicesexport_action {
+    margin-top: 10px;
+}
+
+.local_choicesexport_table .c0 {
+    width: 30px;
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+.local_choicesexport_table {
+    margin: 0;
+}
