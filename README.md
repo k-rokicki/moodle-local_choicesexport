@@ -21,6 +21,8 @@ into `local` directory.
 - Version 2022082400
   - Fix required Moodle version (3.5+)
   - Manipulate navigation only in Moodle 4.x
+- Version 2022082401
+  - Fix hiding choice description
 
 ## About
 

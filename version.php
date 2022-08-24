@@ -26,6 +26,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2022082400;
+$plugin->version   = 2022082401;
 $plugin->requires  = 2018051700;
 $plugin->component = "local_choicesexport";
