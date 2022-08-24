@@ -64,19 +64,25 @@ $PAGE->set_title($title);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_pagelayout('incourse');
 
-$PAGE->activityheader->set_attrs([
-    'nodescription' => true
-]);
-$PAGE->navbar->prepend(
-    $course->shortname,
-    new moodle_url('/course/view.php', array('id' => $course->id)) . '#section-0',
-    navigation_node::TYPE_COURSE
-);
-$PAGE->navbar->prepend(
-    $cm->name,
-    new moodle_url('/mod/choice/view.php', array('id' => $cm->id)),
-    navigation_node::TYPE_COURSE
-);
+if (property_exists($PAGE, 'activityheader')) {
+    $PAGE->activityheader->set_attrs([
+        'nodescription' => true
+    ]);
+}
+
+require("$CFG->dirroot/version.php"); // defines $version, $release, $branch and $maturity
+if ($version >= 2022041900) {         // Moodle 4.x - add course and choice links to navigation
+    $PAGE->navbar->prepend(
+        $course->shortname,
+        new moodle_url('/course/view.php', array('id' => $course->id)) . '#section-0',
+        navigation_node::TYPE_COURSE
+    );
+    $PAGE->navbar->prepend(
+        $cm->name,
+        new moodle_url('/mod/choice/view.php', array('id' => $cm->id)),
+        navigation_node::TYPE_COURSE
+    );
+}
 
 $coursechoices = new course_choices($course);
 if ($action === 'download' && $downloadallowed) {
