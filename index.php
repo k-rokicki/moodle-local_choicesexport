@@ -70,8 +70,8 @@ if (property_exists($PAGE, 'activityheader')) {
     ]);
 }
 
-require("$CFG->dirroot/version.php"); // defines $version, $release, $branch and $maturity
-if ($version >= 2022041900) {         // Moodle 4.x - add course and choice links to navigation
+require("$CFG->dirroot/version.php");
+if ($version >= 2022041900) {         // Moodle 4.x - add course and choice links to navigation.
     $PAGE->navbar->prepend(
         $course->shortname,
         new moodle_url('/course/view.php', array('id' => $course->id)) . '#section-0',
