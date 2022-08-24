@@ -64,10 +64,12 @@ $PAGE->set_title($title);
 $PAGE->set_heading($course->fullname);
 $PAGE->set_pagelayout('incourse');
 
-if (property_exists($PAGE, 'activityheader')) {
+try {
     $PAGE->activityheader->set_attrs([
         'nodescription' => true
     ]);
+} catch (Exception $ex) {
+    debugging($ex->getMessage());
 }
 
 require("$CFG->dirroot/version.php");
