@@ -7,7 +7,7 @@ along with their students' answers to a text file.
 
 ![Course files preview](preview.png)
 
-Tested in: Moodle 4.0
+Supported Moodle versions: 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 4.0
 
 ## Quick install
 
@@ -17,7 +17,10 @@ into `local` directory.
 ## Changelog
 
 - Version 2022081400
-    - Compatibility with Moodle 4.0
+  - Compatibility with Moodle 4.0
+- Version 2022082400
+  - Fix required Moodle version (3.5+)
+  - Manipulate navigation only in Moodle 4.x
 
 ## About
 
